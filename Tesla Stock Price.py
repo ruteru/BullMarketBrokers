@@ -1,9 +1,13 @@
 from pandasai import SmartDataframe
 import pandas as pd
 import matplotlib.pyplot as plt
-import seaborn as sns
+from flask import Flask, render_template
 
-df = pd.read_csv("TESLA.csv")
+app = Flask(__name__)
+
+@app.route('/')
+def index():
+    df = pd.read_csv("TESLA.csv")
 stocks = ["Date","Open","High","Low","Close","Adj Close","Volume"]
 selected_columns = df[["Date", "Open", "Close"]]
 
@@ -15,3 +19,9 @@ plt.ylabel('Price')
 plt.legend()
 plt.grid(True)
 plt.show()
+
+    message = "Hello from your Python app!"
+    return render_template('index.html', message=message)
+
+if __name__ == '__main__':
+    app.run(debug=True)
